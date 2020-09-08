@@ -1,0 +1,49 @@
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+.mat-form-field {
+  margin-top: 16px;
+}
+.margin-up-down{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.margin-up{
+  margin-top: 1em;
+}
+.margin-down{
+  margin-bottom: 1em;
+}
+
+.boton {
+  background:none;
+  border:none;
+  margin:0;
+  padding:0;
+  cursor: pointer;
+}
+
+
+.autocomplete-width{
+  width: 90%;
+}
+
+.datosPersonales .margen{
+    margin-left: 1em;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}

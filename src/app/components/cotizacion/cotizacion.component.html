@@ -1,1 +1,101 @@
+<div class="contenido">
+    <div class="margin-up-down">
+        <h1>Cotizacion</h1>
+    </div>
 
+    <div class="stepper">
+        <mat-horizontal-stepper #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup" class="datosPersonales">
+                    <ng-template matStepLabel>Escribe tus datos</ng-template>
+                    <mat-form-field>
+                        <mat-label>Nombre</mat-label>
+                        <input matInput placeholder="Nombre" formControlName="firstCtrl" required>
+                    </mat-form-field>
+
+                    <mat-form-field class="margen">
+                        <mat-label>Apellido Paterno</mat-label>
+                        <input matInput placeholder="Apellido Paterno" formControlName="firstCtrl" required>
+                    </mat-form-field>
+
+                    <mat-form-field class="margen">
+                        <mat-label>Apellido Materno</mat-label>
+                        <input matInput placeholder="Apellido Materno" formControlName="firstCtrl">
+                    </mat-form-field>
+
+                    <mat-form-field class="margen" appearance="fill">
+                        <mat-label>Fecha de nacimiento</mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <div>
+                        <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup" label="Escoge los examenes">
+                <div class="row mat-full-width">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <mat-form-field class="autocomplete-width">
+                                <input type="text" placeholder="Examen" aria-label="Number" matInput
+                                    [formControl]="controExamenGeneral" [matAutocomplete]="autoGeneral">
+                                <mat-autocomplete autoActiveFirstOption #autoGeneral="matAutocomplete"
+                                    (optionSelected)="obtenerExamenGeneral($event.option.value)">
+                                    <mat-option *ngFor="let optionGen of filteredOptionsGeneral | async"
+                                        [value]="optionGen">
+                                        {{optionGen}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row margin-down" *ngFor="let examen of ExamenGeneralSeleccionado">
+                            <mat-card class="mat-full-width">
+                                <div class="row">
+                                    <button class="boton" (click)="removerExamenGeneral(examen.ID)"><mat-icon>remove</mat-icon></button>
+                                    <div class="col">{{examen.NOMBRE}}</div>
+                                    <div class="col d-flex justify-content-end">Precio: $ {{examen.PRECIO}}</div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <div class="row margin-up-down">
+                            <div class="col d-flex justify-content-end">
+                                Subtotal: $ {{subtotal}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
+
+                <div>
+                    <button mat-button matStepperPrevious>Atras</button>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+            </mat-step>
+            <mat-step [stepControl]="thirdFormGroup" label="Descuentos">
+                <div class="row mat-full-width">
+                    Verificando descuentos
+                </div>
+
+                <div>
+                    <button mat-button matStepperPrevious>Atras</button>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Listo</ng-template>
+                <p>Que deseas hacer</p>
+                <div>
+                    <button mat-button matStepperPrevious>Atras</button>
+                    <button mat-button (click)="stepper.reset()">Volver a empezar</button>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </div>
+
+</div>

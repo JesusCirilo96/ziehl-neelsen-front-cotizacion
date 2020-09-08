@@ -5,10 +5,12 @@ import { from } from 'rxjs';
 
 import {WelcomeComponent} from './components/welcome/welcome.component';
 import {CotizacionComponent} from './components/cotizacion/cotizacion.component';
+import {CitaComponent} from './components/cita/cita.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent },
-  {path: 'cotizar', component: CotizacionComponent }
+  {path: 'cotizar', component: CotizacionComponent },
+  {path: 'cita', component: CitaComponent }
 ];
 
 @NgModule({

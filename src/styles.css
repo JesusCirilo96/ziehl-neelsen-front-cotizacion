@@ -2,3 +2,16 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.contenido {
+    display: flex;
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    width: 85%;
+    flex-flow: column;
+}
+
+.mat-full-width{
+    width: 100%;
+  }
+  

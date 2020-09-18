@@ -18,7 +18,7 @@ export class ExamenGeneralService {
    * Se obtienen la lista de examenes generales
    */
   obtenerExamenesGenerales(){
-    return this.http.get(`${this.API_URI}/examen/general/get/all`);
+    return this.http.get(`${this.API_URI}/examen/get/all`);
   }
 
   /**
@@ -26,6 +26,6 @@ export class ExamenGeneralService {
    * @param name nombre del examen general a buscar
    */
   obtenerExamenGeneralNombre(name: string){
-    return this.http.get(`${this.API_URI}/examen/general/get/name/${name}`);
+    return this.http.get(`${this.API_URI}/examen/get/name/${name}`);
   }
 }

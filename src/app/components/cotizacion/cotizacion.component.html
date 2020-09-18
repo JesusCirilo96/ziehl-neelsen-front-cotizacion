@@ -25,7 +25,7 @@
 
                     <mat-form-field class="margen" appearance="fill">
                         <mat-label>Fecha de nacimiento</mat-label>
-                        <input matInput [matDatepicker]="picker">
+                        <input matInput [matDatepicker]="picker" required>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -60,11 +60,24 @@
                                     <div class="col">{{examen.NOMBRE}}</div>
                                     <div class="col d-flex justify-content-end">Precio: $ {{examen.PRECIO}}</div>
                                 </div>
+                                <div class="row" *ngIf="examen.DESCUENTO !== undefined && examen.DESCUENTO !== []">
+                                    <small *ngFor="let descuento of examen.DESCUENTO" id="emailHelp" class="form-text text-muted">Examen con <b>{{descuento.PORCENTAJE}}%</b> de descuento por <b>{{descuento.NOMBRE}}</b> equivalente a <b>$ {{descuento.DESCUENTO}} Pesos</b> menos al precio normal </small>
+                                </div>
                             </mat-card>
                         </div>
                         <div class="row margin-up-down">
                             <div class="col d-flex justify-content-end">
                                 Subtotal: $ {{subtotal}}
+                            </div>
+                        </div>
+                        <div class="row margin-up-down">
+                            <div class="col d-flex justify-content-end">
+                                Descuentos: $ {{descuento}}
+                            </div>
+                        </div>
+                        <div class="row margin-up-down">
+                            <div class="col d-flex justify-content-end">
+                                Total: $ {{total}}
                             </div>
                         </div>
                     </div>
@@ -77,19 +90,14 @@
                     <button mat-button matStepperNext>Siguiente</button>
                 </div>
             </mat-step>
-            <mat-step [stepControl]="thirdFormGroup" label="Descuentos">
-                <div class="row mat-full-width">
-                    Verificando descuentos
-                </div>
-
-                <div>
-                    <button mat-button matStepperPrevious>Atras</button>
-                    <button mat-button matStepperNext>Siguiente</button>
-                </div>
-            </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Listo</ng-template>
-                <p>Que deseas hacer</p>
+                <div class="row">
+                    Enviar por correo
+                </div>
+                <div class="row">
+                    Imprimir
+                </div>
                 <div>
                     <button mat-button matStepperPrevious>Atras</button>
                     <button mat-button (click)="stepper.reset()">Volver a empezar</button>

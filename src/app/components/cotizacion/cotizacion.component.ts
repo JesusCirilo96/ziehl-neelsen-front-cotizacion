@@ -3,11 +3,18 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2'
+import { DefaultStateMatcher } from '../default.error-matcher';
 
 //Services
 import { ExamenGeneralService } from '../../services/examenGeneral/examen-general.service';
 import { DescuentoService } from '../../services/descuento/descuento.service';
-import { ThrowStmt } from '@angular/compiler';
+
+//pdf
+import { PdfMakeWrapper, Txt } from 'pdfmake-wrapper';
+
+//models
+import { Sexo } from '../../models/Sexo';
+import { PacienteCotizacion } from '../../models/PacienteCotizacion';
 
 @Component({
   selector: 'app-cotizacion',
@@ -16,8 +23,12 @@ import { ThrowStmt } from '@angular/compiler';
 })
 export class CotizacionComponent implements OnInit {
 
+  //matcher
+
+  matcher = new DefaultStateMatcher();
+
   //stepper
-  firstFormGroup: FormGroup;
+  formPersonalData: FormGroup;
   secondFormGroup: FormGroup;
 
   //autocomplete examen general
@@ -29,8 +40,6 @@ export class CotizacionComponent implements OnInit {
   //accordion
   step = 0;
 
-
-
   //examenes generales selecionados
   ExamenGeneralSeleccionado: any = [];
   //Se almacenan los examenes generales
@@ -38,13 +47,15 @@ export class CotizacionComponent implements OnInit {
   //examenes generales selecionados
   ExamenSencilloSeleccionado: any = [];
 
-  //Descuento examen
-
-  DescuentoExamen: any = [];
 
   total: number = 0.0;
   subtotal: number = 0.0;
   descuento: number = 0.0;
+
+  sexo: Sexo[] = [
+    { value: true, viewValue: 'Masculino' },
+    { value: false, viewValue: 'Femenino' }
+  ];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -56,8 +67,15 @@ export class CotizacionComponent implements OnInit {
 
     this.getAllExamenGeneral();
 
-    this.firstFormGroup = this._formBuilder.group({
+    /*this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
+    });*/
+    this.formPersonalData = this._formBuilder.group({
+      nombre: new FormControl('',[Validators.required]),
+      apellidoPaterno: new FormControl('', [Validators.required]),
+      apellidoMaterno: new FormControl(''),
+      sexo: new FormControl('',[Validators.required]),
+      fechaNacimiento: new FormControl('',[Validators.required]),
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
@@ -140,7 +158,7 @@ export class CotizacionComponent implements OnInit {
             }
           )
         }
-
+        this.controExamenGeneral.setValue('');
         break;
       }
     }
@@ -213,5 +231,20 @@ export class CotizacionComponent implements OnInit {
   prevStep() {
     this.step--;
   }
+
+  //PDF
+
+  imprimir(){
+    const pdf = new PdfMakeWrapper();
+    pdf.add(
+      new Txt("Hola").end
+    );
+
+    pdf.create().open();
+    //console.log(this.formPersonalData.value);
+    
+  }
+
+  
 
 }

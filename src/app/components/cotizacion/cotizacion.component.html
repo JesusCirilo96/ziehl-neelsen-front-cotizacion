@@ -1,35 +1,57 @@
 <div class="contenido">
     <div class="margin-up-down">
-        <h1>Cotizacion</h1>
+        <h1>Cotización</h1>
     </div>
 
     <div class="stepper">
-        <mat-horizontal-stepper #stepper>
-            <mat-step [stepControl]="firstFormGroup">
-                <form [formGroup]="firstFormGroup" class="datosPersonales">
+        <mat-horizontal-stepper #stepper [linear]="false">
+            <mat-step [stepControl]="formPersonalData">
+                <form [formGroup]="formPersonalData" class="datosPersonales">
                     <ng-template matStepLabel>Escribe tus datos</ng-template>
-                    <mat-form-field>
-                        <mat-label>Nombre</mat-label>
-                        <input matInput placeholder="Nombre" formControlName="firstCtrl" required>
-                    </mat-form-field>
-
-                    <mat-form-field class="margen">
-                        <mat-label>Apellido Paterno</mat-label>
-                        <input matInput placeholder="Apellido Paterno" formControlName="firstCtrl" required>
-                    </mat-form-field>
-
-                    <mat-form-field class="margen">
-                        <mat-label>Apellido Materno</mat-label>
-                        <input matInput placeholder="Apellido Materno" formControlName="firstCtrl">
-                    </mat-form-field>
-
-                    <mat-form-field class="margen" appearance="fill">
-                        <mat-label>Fecha de nacimiento</mat-label>
-                        <input matInput [matDatepicker]="picker" required>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-
+                    <div class="row margin-down">
+                        <div class="col-md-3">
+                            <mat-form-field class="mat-full-width">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput placeholder="Nombre" formControlName="nombre" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="mat-full-width">
+                                <mat-label>Apellido Paterno</mat-label>
+                                <input matInput placeholder="Apellido Paterno" formControlName="apellidoPaterno" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="mat-full-width">
+                                <mat-label>Apellido Materno</mat-label>
+                                <input matInput placeholder="Apellido Materno" formControlName="apellidoMaterno">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3"></div>                        
+                    </div>
+                    <div class="row margin-down">
+                        <div class="col-md-3">
+                            <mat-form-field class="mat-full-width" appearance="fill">
+                                <mat-label>Sexo</mat-label>
+                                <mat-select formControlName="sexo" required>
+                                    <mat-option *ngFor="let sex of sexo" [value]="sex.value">
+                                        {{sex.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row margin-down">
+                        <div class="col-md-3">
+                            <mat-form-field class="mat-full-width" appearance="fill">
+                                <mat-label>Fecha de nacimiento</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div> 
+                    </div>
+                    <small>Los campos marcados con <b>*</b> son obligatorios</small>
                     <div>
                         <button mat-button matStepperNext>Siguiente</button>
                     </div>
@@ -37,53 +59,81 @@
             </mat-step>
             <mat-step [stepControl]="secondFormGroup" label="Escoge los examenes">
                 <div class="row mat-full-width">
-                    <div class="col-md-4">
-                        <div class="row">
-                            <mat-form-field class="autocomplete-width">
-                                <input type="text" placeholder="Examen" aria-label="Number" matInput
-                                    [formControl]="controExamenGeneral" [matAutocomplete]="autoGeneral">
-                                <mat-autocomplete autoActiveFirstOption #autoGeneral="matAutocomplete"
-                                    (optionSelected)="obtenerExamenGeneral($event.option.value)">
-                                    <mat-option *ngFor="let optionGen of filteredOptionsGeneral | async"
-                                        [value]="optionGen">
-                                        {{optionGen}}
+                    <div class="col-md-9">
+                        <div class="row margin-right margin-down">
+                            <form class="mat-full-width margin-right">
+                                <mat-form-field class="mat-full-width">
+                                  <input type="text"
+                                         placeholder="Selecciona el examen"
+                                         aria-label="Number"
+                                         matInput
+                                         [formControl]="controExamenGeneral"
+                                         [matAutocomplete]="auto">
+                                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="obtenerExamenGeneral($event.option.value)">
+                                    <mat-option *ngFor="let optionGen of filteredOptionsGeneral | async" [value]="optionGen">
+                                      {{optionGen}}
                                     </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
+                                  </mat-autocomplete>
+                                </mat-form-field>
+                            </form>
                         </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="row margin-down" *ngFor="let examen of ExamenGeneralSeleccionado">
+                        <div class="row margin-down margin-right" *ngFor="let examen of ExamenGeneralSeleccionado">
                             <mat-card class="mat-full-width">
                                 <div class="row">
-                                    <button class="boton" (click)="removerExamenGeneral(examen.ID)"><mat-icon>remove</mat-icon></button>
+                                    <button class="boton" (click)="removerExamenGeneral(examen.ID)">
+                                        <mat-icon>remove</mat-icon>
+                                    </button>
                                     <div class="col">{{examen.NOMBRE}}</div>
                                     <div class="col d-flex justify-content-end">Precio: $ {{examen.PRECIO}}</div>
                                 </div>
                                 <div class="row" *ngIf="examen.DESCUENTO !== undefined && examen.DESCUENTO !== []">
-                                    <small *ngFor="let descuento of examen.DESCUENTO" id="emailHelp" class="form-text text-muted">Examen con <b>{{descuento.PORCENTAJE}}%</b> de descuento por <b>{{descuento.NOMBRE}}</b> equivalente a <b>$ {{descuento.DESCUENTO}} Pesos</b> menos al precio normal </small>
+                                    <small *ngFor="let descuento of examen.DESCUENTO" id="emailHelp"
+                                        class="form-text text-muted">Examen con <b>{{descuento.PORCENTAJE}}%</b> de
+                                        descuento por <b>{{descuento.NOMBRE}}</b> equivalente a <b>$
+                                            {{descuento.DESCUENTO}} Pesos</b> menos al precio normal </small>
                                 </div>
                             </mat-card>
                         </div>
-                        <div class="row margin-up-down">
+                        <div class="row margin-up-down margin-right">
                             <div class="col d-flex justify-content-end">
                                 Subtotal: $ {{subtotal}}
                             </div>
                         </div>
-                        <div class="row margin-up-down">
+                        <div class="row margin-up-down margin-right">
                             <div class="col d-flex justify-content-end">
                                 Descuentos: $ {{descuento}}
                             </div>
                         </div>
-                        <div class="row margin-up-down">
+                        <div class="row margin-up-down margin-right">
                             <div class="col d-flex justify-content-end">
                                 Total: $ {{total}}
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3 margin-up">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <button class="mat-full-width margin-down" mat-stroked-button
+                                        color="primary" (click)="imprimir()">Volver a empezar</button>
+                                </div>
+                                <div class="row">
+                                    <button class="mat-full-width margin-down" mat-stroked-button
+                                        color="primary" (click)="imprimir()">Ver a paquetes</button>
+                                </div>
+                                <div class="row">
+                                    <button class="mat-full-width margin-down" mat-stroked-button color="primary">Guardar
+                                        PDF</button>
+                                </div>
+                                <div class="row">
+                                    <button class="mat-full-width margin-down" mat-stroked-button
+                                        color="primary" (click)="imprimir()">Imprimir</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-               
 
                 <div>
                     <button mat-button matStepperPrevious>Atras</button>
@@ -92,11 +142,25 @@
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Listo</ng-template>
-                <div class="row">
-                    Enviar por correo
+
+                <div class="row margin-down justify-content-md-center">
+                    <div class="col-md-3">
+                        <p class="text-center">RESUMEN</p>
+                    </div>
                 </div>
                 <div class="row">
-                    Imprimir
+                    <div class="col-md-8">
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <button class="mat-full-width margin-down" mat-stroked-button color="primary">Guardar PDF</button>
+                        </div>
+                        <div class="row">
+                            <button class="mat-full-width margin-down" mat-stroked-button
+                                color="primary">Imprimir</button>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <button mat-button matStepperPrevious>Atras</button>

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';//<--------------Needs to delete error in routing
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';//-------------->Para poder enlazar con los modelos 
 import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material/core';
+import { NgxPrintModule } from 'ngx-print';//impresion
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +22,7 @@ import {MaterialModule} from './MaterialModule';
 import { CotizacionComponent } from './components/cotizacion/cotizacion.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CitaComponent } from './components/cita/cita.component';
+import { PaqueteExamenDialogComponent } from './components/paquete-examen-dialog/paquete-examen-dialog.component';
 
 // Set the fonts to use
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -31,7 +33,8 @@ PdfMakeWrapper.setFonts(pdfFonts);
     AppComponent,
     CotizacionComponent,
     WelcomeComponent,
-    CitaComponent
+    CitaComponent,
+    PaqueteExamenDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ PdfMakeWrapper.setFonts(pdfFonts);
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,//añadir para los formGruoups
-    MatStepperModule
+    MatStepperModule,
+    NgxPrintModule
   ],
   providers: [
     {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}

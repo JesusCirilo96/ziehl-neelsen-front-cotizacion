@@ -1,0 +1,26 @@
+<mat-dialog-content class="margin-down">
+    <div class="margin-down" class="row">
+        <div class="col-md 3" *ngFor="let paquete of Paquete">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{paquete.paquete.nombre}}</mat-card-title>
+                    <mat-card-subtitle>$ {{paquete.paquete.precio}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-list>
+                        <mat-list-item class="margin-down" *ngFor="let examen of paquete.examen"><span
+                                class="material-icons">
+                                keyboard_arrow_right
+                            </span> {{examen.nombre}}</mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button>Seleccionar</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="margin-top" align="end">
+    <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

@@ -55,3 +55,60 @@
 .example-headers-align .mat-form-field + .mat-form-field {
   margin-left: 8px;
 }
+
+#borderInforme{
+    
+  height: 1280px;
+  margin-left: .8em;
+  margin-right: .8em;
+
+  padding-right: 1em;
+  padding-left: 1em;
+
+  border-radius: 29px 29px 29px 29px;
+  -moz-border-radius: 29px 29px 29px 29px;
+  -webkit-border-radius: 29px 29px 29px 29px;
+  border: 2px solid #636bff;
+}
+
+.footer{
+  position:absolute; /*El div será ubicado con relación a la pantalla*/
+  margin-left:1em; /*A la derecha deje un espacio de 0px*/
+  margin-right:1em; /*A la izquierda deje un espacio de 0px*/
+  bottom:3em; /*Abajo deje un espacio de 0px*/
+  /*height:50px; /*alto del div*/
+  z-index:0;
+}
+
+.header-image{
+  width: 100%;
+}
+
+.no-margin{
+  margin-bottom: .5em;
+  /*padding: 0;*/
+}
+
+.form-edit{
+  margin-top: 2em;
+}
+
+#title-resultado{
+  border-radius: 0px 0px 0px 0px;
+  -moz-border-radius: 0px 0px 0px 0px;
+  -webkit-border-radius: 0px 0px 0px 0px;
+  -webkit-print-color-adjust: exact;
+  height: 1.5em;
+  border: 1px solid #000000;
+  background-color: #66CD00 ;
+}
+
+.footer{
+  width: 90%;
+  position:absolute; /*El div será ubicado con relación a la pantalla*/
+  margin-left:1em; /*A la derecha deje un espacio de 0px*/
+  margin-right:1em; /*A la izquierda deje un espacio de 0px*/
+  bottom:3em; /*Abajo deje un espacio de 0px*/
+  /*height:50px; /*alto del div*/
+  z-index:0;
+}

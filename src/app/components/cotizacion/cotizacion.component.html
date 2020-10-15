@@ -13,12 +13,19 @@
                             <mat-form-field class="mat-full-width">
                                 <mat-label>Nombre</mat-label>
                                 <input matInput placeholder="Nombre" formControlName="nombre" required>
+                                <mat-error *ngIf="nombreCtrl.hasError('required')">
+                                    El nombre es obligatorio
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-3">
                             <mat-form-field class="mat-full-width">
                                 <mat-label>Apellido Paterno</mat-label>
-                                <input matInput placeholder="Apellido Paterno" formControlName="apellidoPaterno" required>
+                                <input matInput placeholder="Apellido Paterno" formControlName="apellidoPaterno"
+                                    required>
+                                <mat-error *ngIf="apellidoPaternoCtrl.hasError('required')">
+                                    El apellido paterno es obligatorio
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-3">
@@ -27,7 +34,7 @@
                                 <input matInput placeholder="Apellido Materno" formControlName="apellidoMaterno">
                             </mat-form-field>
                         </div>
-                        <div class="col-md-3"></div>                        
+                        <div class="col-md-3"></div>
                     </div>
                     <div class="row margin-down">
                         <div class="col-md-3">
@@ -38,6 +45,9 @@
                                         {{sex.viewValue}}
                                     </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="sexoCtrl.hasError('required')">
+                                    El sexo es obligatorio
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -48,32 +58,36 @@
                                 <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" required>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
+                                <mat-error *ngIf="fechaNacimientoCtrl.hasError('required')">
+                                    La fecha de nacimiento es obligatorio
+                                </mat-error>
                             </mat-form-field>
-                        </div> 
+                        </div>
                     </div>
-                    <small>Los campos marcados con <b>*</b> son obligatorios</small>
+                    <div class="float-right">
+                        <small>Los campos marcados con <b>*</b> son obligatorios</small>
+                    </div>
                     <div>
                         <button mat-button matStepperNext>Siguiente</button>
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="secondFormGroup" label="Escoge los examenes">
+            <mat-step>
+                <ng-template matStepLabel>Selecciona los examenes</ng-template>
                 <div class="row mat-full-width">
                     <div class="col-md-9">
                         <div class="row margin-right margin-down">
                             <form class="mat-full-width margin-right">
                                 <mat-form-field class="mat-full-width">
-                                  <input type="text"
-                                         placeholder="Selecciona el examen"
-                                         aria-label="Number"
-                                         matInput
-                                         [formControl]="controExamenGeneral"
-                                         [matAutocomplete]="auto">
-                                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="obtenerExamenGeneral($event.option.value)">
-                                    <mat-option *ngFor="let optionGen of filteredOptionsGeneral | async" [value]="optionGen">
-                                      {{optionGen}}
-                                    </mat-option>
-                                  </mat-autocomplete>
+                                    <input type="text" placeholder="Selecciona el examen" aria-label="Number" matInput
+                                        [formControl]="controExamenGeneral" [matAutocomplete]="auto">
+                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                                        (optionSelected)="obtenerExamenGeneral($event.option.value)">
+                                        <mat-option *ngFor="let optionGen of filteredOptionsGeneral | async"
+                                            [value]="optionGen">
+                                            {{optionGen}}
+                                        </mat-option>
+                                    </mat-autocomplete>
                                 </mat-form-field>
                             </form>
                         </div>
@@ -114,22 +128,18 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <button class="mat-full-width margin-down" mat-stroked-button
-                                        color="primary" (click)="imprimir()">Volver a empezar</button>
+                                    <button class="mat-full-width margin-down" mat-stroked-button color="primary">Volver
+                                        a empezar</button>
                                 </div>
                                 <div class="row">
-                                    <button class="mat-full-width margin-down" mat-stroked-button
-                                        color="primary" (click)="imprimir()">Ver a paquetes</button>
+                                    <button class="mat-full-width margin-down" mat-stroked-button color="primary" matTooltip="Ahorra mas con un paquete de examenes" (click)="openDialog()">Ver
+                                        paquetes</button>
                                 </div>
                                 <div class="row">
-                                    <button class="mat-full-width margin-down" mat-stroked-button color="primary">Guardar
-                                        PDF</button>
+                                    <button class="mat-full-width margin-down" mat-stroked-button color="primary" matTooltip="Puedes llevar la cotización a nuestra sucursal"
+                                        (click)="imprimir()" [useExistingCss]="true" sprintTitle="Cotizacion"
+                                        printSectionId="impresion" ngxPrint>Imprimir</button>
                                 </div>
-                                <div class="row">
-                                    <button class="mat-full-width margin-down" mat-stroked-button
-                                        color="primary" (click)="imprimir()">Imprimir</button>
-                                </div>
-                                
                             </div>
                         </div>
                     </div>
@@ -137,37 +147,103 @@
 
                 <div>
                     <button mat-button matStepperPrevious>Atras</button>
-                    <button mat-button matStepperNext>Siguiente</button>
-                </div>
-            </mat-step>
-            <mat-step>
-                <ng-template matStepLabel>Listo</ng-template>
-
-                <div class="row margin-down justify-content-md-center">
-                    <div class="col-md-3">
-                        <p class="text-center">RESUMEN</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
-
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row">
-                            <button class="mat-full-width margin-down" mat-stroked-button color="primary">Guardar PDF</button>
-                        </div>
-                        <div class="row">
-                            <button class="mat-full-width margin-down" mat-stroked-button
-                                color="primary">Imprimir</button>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <button mat-button matStepperPrevious>Atras</button>
-                    <button mat-button (click)="stepper.reset()">Volver a empezar</button>
+                    <!--<button mat-button matStepperNext>Siguiente</button>-->
                 </div>
             </mat-step>
         </mat-horizontal-stepper>
     </div>
-
 </div>
+
+<!--INICIO DE ZONA DE IMPRESION-->
+<div class="no-margin" style="font-size: 12pt;
+font-family: Arial, Helvetica, sans-serif;
+width: 22.5cm;
+height: 1080px;
+display: none;" id="impresion">
+    <div class="width-100">
+        <img class="header-image" src="../../../../assets/img/header.PNG" alt="header">
+    </div>
+    <div id="borderInforme">
+        <div class="form-edit margin-left">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="row">
+                        Nombre:
+                    </div>
+                    <div class="row">
+                        Edad:
+                    </div>
+                    <div class="row">
+                        Sexo:
+                    </div>
+                    <div class="row">
+                        Fecha cotizacion:
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        {{nombreCtrl.value}} {{apellidoPaternoCtrl.value}} {{apellidoMaternoCtrl.value}}
+                    </div>
+                    <div class="row">
+                        {{calcularEdad(parsearFecha(fechaNacimientoCtrl.value))}}
+                    </div>
+                    <div class="row">
+                        {{masculinoOfemenio(sexoCtrl.value)}}
+                    </div>
+                    <div class="row">
+                        {{getToday()}} {{getHour()}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-edit">
+            <div id="title-resultado" class="text-center bold">
+                <p>RESUMEN</p>
+            </div>
+        </div>
+        <div class="form-edit">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Examen</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col"> % Descuento</th>
+                        <th scope="col">Precio con descuento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let examen of ExamenGeneralSeleccionado">
+                        <td>{{examen.NOMBRE}}</td>
+                        <td>$ {{examen.PRECIO}}</td>
+                        <ng-template [ngIf]="examen.DESCUENTO[0] !== undefined && examen.DESCUENTO !== []">
+                            <td>{{examen.DESCUENTO[0].PORCENTAJE}} % {{examen.DESCUENTO[0].NOMBRE}}</td>
+                        </ng-template>
+                        <ng-template [ngIf]="examen.DESCUENTO[0] === undefined">
+                            <td> 0 </td>
+                        </ng-template>
+                        <td>$ {{examen.PRECIO_REAL}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="footer">
+                <div class="row margin margin-right">
+                    <div class="col d-flex justify-content-end">
+                        Subtotal: $ {{subtotal}}
+                    </div>
+                </div>
+                <div class="row margin-right">
+                    <div class="col d-flex justify-content-end">
+                        Descuentos: $ {{descuento}}
+                    </div>
+                </div>
+                <div class="row margin-right">
+                    <div class="col d-flex justify-content-end">
+                        Total: $ {{total}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN DE ZONA DE IMPRESION-->

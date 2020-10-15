@@ -22,5 +22,9 @@ export class DescuentoService {
     return this.http.get(`${this.API_URI}/examen/descuento/${id}`);
   }
 
+  descuentoPaquete(){
+    return this.http.get(`${this.API_URI}/paquete/descuento/all`);
+  }
+
 
 }
